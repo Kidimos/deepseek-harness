@@ -1,0 +1,40 @@
+{
+  "name": "dsh-router",
+  "version": "0.1.0",
+  "description": "Dual-role profile router for DeepSeek Harness: standalone CLI TUI + DSH bundle plugin.",
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    }
+  },
+  "bin": {
+    "dsh-router": "./lib/bin.js"
+  },
+  "files": [
+    "lib",
+    "cordis.patch.yml",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "start": "node lib/bin.js",
+    "prepare": "pnpm run build",
+    "prepublishOnly": "pnpm run build"
+  },
+  "engines": {
+    "node": ">=22.19"
+  },
+  "devDependencies": {
+    "@types/node": "^22"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "private": true
+}
