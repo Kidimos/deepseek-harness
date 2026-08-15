@@ -1,0 +1,5 @@
+# This bundle is intended for a dedicated "router" profile.
+# Installing it into web/headless will make that profile show the TUI on boot.
+- insert:
+    - id: dsh-router
+      name: dsh-router
