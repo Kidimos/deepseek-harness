@@ -1,7 +1,7 @@
 {
   "name": "@dsh-external/dsh-client-ui-toolbox",
   "description": "Toolbox base for the dsh web GUI: appends its own right column to the shipped frame grid at runtime (zero harness changes) and hosts tool cards contributed by other plugins through the toolbox.tool slot",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": true,
   "type": "module",
   "main": "lib/index.js",
