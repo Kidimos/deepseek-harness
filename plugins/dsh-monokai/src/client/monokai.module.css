@@ -22,7 +22,6 @@ body[data-dsh-monokai] {
   --dsw-alias-state-success-primary: #4c8c2a;
   --dsw-alias-state-warn-primary: #a97b12;
   --dsw-specific-sidebar-fill: rgba(198, 186, 168, 0.92);
-  --dsw-specific-details-fill: rgba(184, 170, 148, 0.96);
   --dsw-specific-input-major: rgba(218, 208, 192, 0.88);
   --dsw-specific-selector: rgba(194, 182, 164, 0.94);
   --dsw-alias-markdown-code-block: rgba(240, 232, 218, 0.88);
@@ -65,7 +64,6 @@ body[data-dsh-monokai][data-ds-dark-theme] {
   --dsw-alias-state-success-primary: #a6e22e;
   --dsw-alias-state-warn-primary: #e6db74;
   --dsw-specific-sidebar-fill: rgba(30, 31, 28, 0.92);
-  --dsw-specific-details-fill: rgba(16, 17, 14, 0.98);
   --dsw-specific-input-major: rgba(38, 39, 34, 0.86);
   --dsw-specific-selector: rgba(46, 47, 41, 0.9);
   --dsw-alias-markdown-code-block: #272822;
