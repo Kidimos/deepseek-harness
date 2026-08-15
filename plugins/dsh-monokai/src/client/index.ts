@@ -1,5 +1,5 @@
 /**
- * Monokai anime clock skin.
+ * Monokai Surtur skin.
  *
  * The skin is scoped to a body attribute so the stylesheet can override the
  * stock DSH semantic tokens directly. It sets one inline CSS variable for the

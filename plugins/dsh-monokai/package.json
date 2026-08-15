@@ -1,6 +1,6 @@
 {
   "name": "@dsh-external/dsh-client-ui-skin-monokai",
-  "description": "Monokai anime clock skin for the dsh web GUI",
+  "description": "Monokai Surtur skin for the dsh web GUI",
   "version": "0.0.1",
   "private": true,
   "type": "module",

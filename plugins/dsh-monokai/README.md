@@ -1,10 +1,10 @@
 # dsh-monokai
 
-Monokai 动漫时钟皮肤。
+Monokai 史尔特尔皮肤。
 
 ## 特性
 
-- 使用本地 `assets/clock-42.jpg` 作为背景图，打包为 data URL。
+- 使用本地 `assets/surtur.jpg` 作为背景图，打包为 data URL。
 - 深色：经典 Monokai 配色。
 - 浅色：独立暖白/纸张配色，不照搬深色。
 - 通过 `body[data-dsh-monokai]` 直接覆盖 DSH 语义 token。

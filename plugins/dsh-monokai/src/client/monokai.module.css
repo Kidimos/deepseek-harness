@@ -1,4 +1,4 @@
-/* Monokai anime clock skin.
+/* Monokai Surtur skin.
    Light and dark are intentionally distinct palettes: light is a warm paper
    theme, dark is the classic Monokai terminal theme. */
 
@@ -22,8 +22,17 @@ body[data-dsh-monokai] {
   --dsw-alias-state-success-primary: #4c8c2a;
   --dsw-alias-state-warn-primary: #a97b12;
   --dsw-specific-sidebar-fill: rgba(198, 186, 168, 0.92);
+  --dsw-specific-details-fill: rgba(184, 170, 148, 0.96);
   --dsw-specific-input-major: rgba(218, 208, 192, 0.88);
   --dsw-specific-selector: rgba(194, 182, 164, 0.94);
+  --dsw-alias-markdown-code-block: rgba(240, 232, 218, 0.88);
+  --dsw-alias-markdown-code-block-banner: rgba(214, 204, 188, 0.92);
+  --dsw-alias-markdown-inline-code: rgba(214, 204, 188, 0.8);
+  --dsw-alias-markdown-code-segment-selected: rgba(240, 232, 218, 0.96);
+  --dsw-alias-markdown-code-segment-unselected: rgba(214, 204, 188, 0.62);
+  --dsw-alias-markdown-placeholder: rgba(214, 204, 188, 0.72);
+  --dsw-alias-markdown-tag: rgba(214, 204, 188, 0.8);
+  --dsw-alias-markdown-citation: rgba(214, 204, 188, 0.8);
 
   background-image:
     linear-gradient(
@@ -56,8 +65,17 @@ body[data-dsh-monokai][data-ds-dark-theme] {
   --dsw-alias-state-success-primary: #a6e22e;
   --dsw-alias-state-warn-primary: #e6db74;
   --dsw-specific-sidebar-fill: rgba(30, 31, 28, 0.92);
+  --dsw-specific-details-fill: rgba(16, 17, 14, 0.98);
   --dsw-specific-input-major: rgba(38, 39, 34, 0.86);
   --dsw-specific-selector: rgba(46, 47, 41, 0.9);
+  --dsw-alias-markdown-code-block: #272822;
+  --dsw-alias-markdown-code-block-banner: #1e1f1c;
+  --dsw-alias-markdown-inline-code: #3e3d32;
+  --dsw-alias-markdown-code-segment-selected: #3e3d32;
+  --dsw-alias-markdown-code-segment-unselected: #272822;
+  --dsw-alias-markdown-placeholder: #3e3d32;
+  --dsw-alias-markdown-tag: #3e3d32;
+  --dsw-alias-markdown-citation: #3e3d32;
 
   background-image:
     linear-gradient(

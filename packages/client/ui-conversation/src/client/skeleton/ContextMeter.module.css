@@ -32,7 +32,9 @@
 
 .fill {
   fill: none;
-  stroke: var(--dsw-alias-label-tertiary);
+  /* Use the brand accent for the used-context arc so it stays visually
+     distinct from the neutral track under custom skins (e.g. Monokai). */
+  stroke: var(--dsw-alias-brand-primary);
   stroke-width: 2;
   stroke-linecap: round;
 }
