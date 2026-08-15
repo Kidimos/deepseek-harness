@@ -1,0 +1,71 @@
+/* Monokai anime clock skin.
+   Light and dark are intentionally distinct palettes: light is a warm paper
+   theme, dark is the classic Monokai terminal theme. */
+
+body[data-dsh-monokai] {
+  color: #2d2a24;
+  background-color: #d6ccbb;
+  --dsw-alias-bg-base: transparent;
+  --dsw-alias-bg-layer-1: rgba(214, 204, 188, 0.86);
+  --dsw-alias-bg-layer-2: rgba(198, 186, 168, 0.9);
+  --dsw-alias-bg-layer-3: rgba(186, 173, 154, 0.92);
+  --dsw-alias-bg-overlay: rgba(208, 198, 180, 0.95);
+  --dsw-alias-border-l1: rgba(120, 90, 40, 0.18);
+  --dsw-alias-border-l2: rgba(120, 90, 40, 0.28);
+  --dsw-alias-border-l3: rgba(120, 90, 40, 0.4);
+  --dsw-alias-brand-primary: #6f9e2e;
+  --dsw-alias-brand-text: #2d2a24;
+  --dsw-alias-label-primary: #2d2a24;
+  --dsw-alias-label-secondary: #6b6255;
+  --dsw-alias-label-tertiary: #8a8072;
+  --dsw-alias-state-error-primary: #c43e1a;
+  --dsw-alias-state-success-primary: #4c8c2a;
+  --dsw-alias-state-warn-primary: #a97b12;
+  --dsw-specific-sidebar-fill: rgba(198, 186, 168, 0.92);
+  --dsw-specific-input-major: rgba(218, 208, 192, 0.88);
+  --dsw-specific-selector: rgba(194, 182, 164, 0.94);
+
+  background-image:
+    linear-gradient(
+      rgba(196, 184, 166, 0.82),
+      rgba(255, 252, 245, 0.72)
+    ),
+    var(--dsh-monokai-bg-image, none);
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+body[data-dsh-monokai][data-ds-dark-theme] {
+  color: #f8f8f2;
+  background-color: #1e1f1c;
+  --dsw-alias-bg-base: transparent;
+  --dsw-alias-bg-layer-1: rgba(30, 31, 28, 0.88);
+  --dsw-alias-bg-layer-2: rgba(40, 41, 36, 0.92);
+  --dsw-alias-bg-layer-3: rgba(50, 51, 45, 0.94);
+  --dsw-alias-bg-overlay: rgba(20, 21, 18, 0.96);
+  --dsw-alias-border-l1: rgba(248, 248, 242, 0.12);
+  --dsw-alias-border-l2: rgba(248, 248, 242, 0.2);
+  --dsw-alias-border-l3: rgba(248, 248, 242, 0.3);
+  --dsw-alias-brand-primary: #a6e22e;
+  --dsw-alias-brand-text: #f8f8f2;
+  --dsw-alias-label-primary: #f8f8f2;
+  --dsw-alias-label-secondary: #a6a69e;
+  --dsw-alias-label-tertiary: #75715e;
+  --dsw-alias-state-error-primary: #f92672;
+  --dsw-alias-state-success-primary: #a6e22e;
+  --dsw-alias-state-warn-primary: #e6db74;
+  --dsw-specific-sidebar-fill: rgba(30, 31, 28, 0.92);
+  --dsw-specific-input-major: rgba(38, 39, 34, 0.86);
+  --dsw-specific-selector: rgba(46, 47, 41, 0.9);
+
+  background-image:
+    linear-gradient(
+      rgba(30, 31, 28, 0.82),
+      rgba(30, 31, 28, 0.82)
+    ),
+    var(--dsh-monokai-bg-image, none);
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}

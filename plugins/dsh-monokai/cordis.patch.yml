@@ -1,0 +1,4 @@
+# Monokai anime clock skin bundle patch.
+- insert:
+    - id: ui-skin-monokai
+      name: '@dsh-external/dsh-client-ui-skin-monokai'
