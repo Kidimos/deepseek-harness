@@ -64,11 +64,22 @@ export function apply(ctx: PluginContext): void {
             version = nextVersion
             revision = nextRevision
             rows = slots.entries('toolbox.tool')
-              .map((e: { options: { id?: string; order?: number; label?: string | (() => string) } }) => ({
-                id: e.options.id ?? '',
-                order: e.options.order ?? 0,
-                label: resolveSlotLabel(e.options.label) ?? e.options.id ?? '',
-              }))
+              .map((e: {
+                options: { id?: string; order?: number; label?: string | (() => string); icon?: string | (() => unknown) }
+                component?: { icon?: string | (() => unknown) }
+              }) => {
+                const optionIcon = e.options.icon
+                const componentIcon = e.component?.icon
+                const icon = typeof optionIcon === 'string' || typeof optionIcon === 'function'
+                  ? optionIcon
+                  : (typeof componentIcon === 'string' || typeof componentIcon === 'function' ? componentIcon : undefined)
+                return {
+                  id: e.options.id ?? '',
+                  order: e.options.order ?? 0,
+                  label: resolveSlotLabel(e.options.label) ?? e.options.id ?? '',
+                  icon,
+                }
+              })
               .sort((a: ToolRow, b: ToolRow) => a.order - b.order)
           }
           return rows

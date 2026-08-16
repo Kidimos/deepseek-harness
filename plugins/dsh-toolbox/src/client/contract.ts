@@ -10,6 +10,8 @@ export interface ToolRow {
   id: string
   order: number
   label: string
+  /** Optional icon shown in the toolbox icon rail (string or a function returning JSX). */
+  icon?: string | (() => unknown)
 }
 
 /** Bare observable source pair the inject hooks compartment carries. */
@@ -102,7 +104,10 @@ export interface SlotsFace {
   register(options: RegisterOptions, component: unknown): () => void
   subscribe(key: string, listener: () => void): () => void
   getVersion(key: string): number
-  entries(key: string): readonly { options: { id?: string; order?: number } }[]
+  entries(key: string): readonly {
+    options: { id?: string; order?: number; label?: string | (() => string); icon?: string | (() => unknown) }
+    component?: { icon?: string | (() => unknown) }
+  }[]
 }
 
 /** The client context face the toolbox apply world reads (cordis, untyped at the boundary). */

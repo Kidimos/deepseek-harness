@@ -1,0 +1,6 @@
+# dsh-file-preview bundle patch: inserts the dual-face plugin row into a web
+# profile roster. The node half exposes /dsh-file-preview/* routes backed by
+# the session workspace; the client half registers a toolbox.tool entry.
+- insert:
+    - id: ui-file-preview
+      name: '@dsh-external/dsh-client-ui-file-preview'
