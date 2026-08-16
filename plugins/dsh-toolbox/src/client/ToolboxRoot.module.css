@@ -16,7 +16,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 8px;
-  padding: 14px 12px 12px;
+  padding: 10px 12px;
   border-bottom: 1px solid var(--dsw-alias-border-l2);
 }
 
@@ -24,7 +24,7 @@
   overflow: hidden;
   font-size: 14px;
   line-height: 20px;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--dsw-alias-label-primary);
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -50,53 +50,116 @@
 .body {
   flex: 1;
   min-height: 0;
-  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
   overflow-y: auto;
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 10px;
-}
-
 .empty {
-  padding: 8px 0;
+  margin: auto;
+  padding: 32px 16px;
+  text-align: center;
   font-size: 13px;
   line-height: 20px;
   color: var(--dsw-alias-label-tertiary);
 }
 
 .emptyHint {
-  margin-top: 4px;
+  margin-top: 6px;
   color: var(--dsw-alias-label-secondary);
 }
 
-/* Entry point: right-edge handrail at vertical center; the component renders
-   it only while the column is collapsed. */
-.handrail {
+/* The active tool's page fills the column; hidden pages stay mounted. */
+.pages {
+  flex: 1;
+  min-height: 0;
   display: flex;
-  position: fixed;
-  top: 40%;
-  right: 0;
-  z-index: 1000;
-  pointer-events: none;
+  flex-direction: column;
 }
 
-.handrailBtn {
-  pointer-events: auto;
-  width: 28px;
-  padding: 10px 3px;
-  background: var(--dsw-alias-bg-overlay);
+.page {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.page > * {
+  flex: 1;
+  min-height: 0;
+}
+
+/* Tab strip under the header; one tab per tool. */
+.tabs {
+  display: flex;
+  gap: 2px;
+  padding: 6px 8px 0;
+  border-bottom: 1px solid var(--dsw-alias-border-l2);
+}
+
+.tab {
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 7px 10px;
+  border: none;
+  border-bottom: 2px solid transparent;
+  border-radius: 6px 6px 0 0;
+  background: transparent;
   color: var(--dsw-alias-label-secondary);
-  border: 1px solid var(--dsw-alias-border-l1);
-  border-right: none;
-  border-radius: 8px 0 0 8px;
   cursor: pointer;
-  font-size: 11px;
-  line-height: 1.4;
+  font-size: 12px;
+  line-height: 16px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.handrailBtn:hover {
+.tab:hover {
+  color: var(--dsw-alias-label-primary);
+  background: var(--dsw-alias-interactive-bg-hover);
+}
+
+.tab:focus-visible {
+  outline: 2px solid var(--dsw-alias-brand-primary);
+  outline-offset: -2px;
+}
+
+.activeTab {
+  color: var(--dsw-alias-label-primary);
+  border-bottom-color: var(--dsw-alias-brand-primary);
+  background: var(--dsw-alias-interactive-bg-hover);
+}
+
+/* Collapsed right rail: a narrow always-present sidebar strip. */
+.rail {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border-left: 1px solid var(--dsw-alias-border-l2);
+  background: var(--dsw-alias-bg-overlay);
+}
+
+.railBtn {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 100%;
+  padding: 14px 0;
+  border: none;
+  background: transparent;
+  color: var(--dsw-alias-label-secondary);
+  cursor: pointer;
+}
+
+.railBtn:hover {
   color: var(--dsw-alias-brand-primary);
+}
+
+.railBtn:focus-visible {
+  outline: 2px solid var(--dsw-alias-brand-primary);
+  outline-offset: -2px;
+}
+
+.railIcon {
+  display: block;
 }
