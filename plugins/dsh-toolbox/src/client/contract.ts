@@ -5,10 +5,11 @@
  * type packages; the seat is the interface every tool plugin uses.
  */
 
-/** One ledger-projected row: existence drives the empty state; cards render themselves. */
+/** One ledger-projected row: existence drives the empty state; the label titles the card. */
 export interface ToolRow {
   id: string
   order: number
+  label: string
 }
 
 /** Bare observable source pair the inject hooks compartment carries. */
@@ -34,14 +35,15 @@ export interface ToolboxLayoutController {
   open(): void
   close(): void
   setWidth(px: number, persist?: boolean): void
-  setCollapseLabel(label: string): void
+  markMounted(): void
+  markUnmounted(): void
   setRoot(root: string): void
   dispose(): void
 }
 
 /** Injected share of the toolbox column (assembled in the plugin's apply). */
 export interface ToolboxInjected {
-  /** Close the toolbox column (collapse to zero width, kept mounted). */
+  /** Close the toolbox column (collapse to the narrow rail, kept mounted). */
   closeDetails: () => void
   hooks: {
     /** toolbox.tool ledger projected into ordered rows. */
@@ -53,8 +55,8 @@ export interface ToolboxInjected {
 export interface ToolboxRootProps {
   /** Current session id (framework-standard). */
   sessionId: string
-  /** Render the declared tool seat (all entries, order ascending). */
-  renderSlot: (name: 'toolbox.tool', owner?: Record<string, never>) => unknown
+  /** Render one tool entry of the declared seat (title and body per row). */
+  renderSlot: (name: 'toolbox.tool', owner?: Record<string, never>, options?: { only?: string }) => unknown
   /** Bound rows hook from the inject hooks compartment. */
   useTools: <S>(selector: (rows: readonly ToolRow[]) => S) => S
   /** Close the column (injected callback). */
@@ -67,6 +69,8 @@ export interface ToolboxRootProps {
 export interface LocaleFace {
   register(ns: string, dicts: Record<string, object>): () => void
   bind(ns: string): (key: string) => string
+  getSnapshot(): { revision: number }
+  subscribe(listener: () => void): () => void
 }
 
 /** The sessions-service face the toolbox uses for the per-project root. */

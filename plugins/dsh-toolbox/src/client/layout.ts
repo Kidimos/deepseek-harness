@@ -2,7 +2,7 @@
  * The toolbox layout controller: appends ONE trailing track (the 工具区
  * column) to the shipped three-column frame grid by mirroring the shell's
  * inline grid-template-columns and re-appending our track on every shell
- * update (MutationObserver). Owns the drag handle, the collapse-as-zero-width
+ * update (MutationObserver). Owns the drag handle, the collapse-to-rail
  * keep-mounted behavior, the width policy, and per-project persistence —
  * everything here is plugin-owned; no harness code changes.
  *
@@ -17,6 +17,8 @@ import type { ToolboxLayoutSnapshot } from './contract.ts'
 /** Width policy constants — the plugin's configuration surface. */
 export const TOOLBOX_MIN = 300
 export const TOOLBOX_MAX = 1200
+/** Collapsed rail width (a narrow always-present right sidebar, like the left rail). */
+export const TOOLBOX_RAIL_WIDTH = 44
 /** Assumed sidebar width in px (w_left); the frame exposes no live read. */
 export const SIDEBAR_ASSUMED = 280
 /** Center-column floor the toolbox never eats into. */
@@ -25,7 +27,6 @@ export const CENTER_RESERVE = 320
 /** Column element class (also the portal + drag-handle anchor). */
 export const TOOLBOX_COL_CLASS = 'dsh-toolbox-col'
 export const TOOLBOX_HANDLE_CLASS = 'dsh-toolbox-handle'
-export const TOOLBOX_COLLAPSE_CLASS = 'dsh-toolbox-collapse'
 
 const PERSIST_WIDTH = 'dsh-toolbox:width:'
 const PERSIST_COLLAPSED = 'dsh-toolbox:collapsed:'
@@ -114,13 +115,13 @@ export class ToolboxLayoutController {
   private frame: HTMLElement | null = null
   private column: HTMLDivElement | null = null
   private handle: HTMLDivElement | null = null
-  private collapseBtn: HTMLButtonElement | null = null
   private styleObserver: MutationObserver | null = null
   private waitObserver: MutationObserver | null = null
   private sizeObserver: ResizeObserver | null = null
   private shellTracks: string[] = []
   private frameWidth = 0
   private root = ''
+  private mounted = false
 
   getSnapshot = (): ToolboxLayoutSnapshot => this.state
 
@@ -180,31 +181,6 @@ export class ToolboxLayoutController {
     frame.appendChild(handle)
     this.handle = handle
 
-    // The collapse pill: a frame-level sibling of the handle (z-index above
-    // it) straddling the column's LEFT edge, so it never covers tool content
-    // and never gets clipped by the column's overflow.
-    const collapse = document.createElement('button')
-    collapse.type = 'button'
-    collapse.className = TOOLBOX_COLLAPSE_CLASS
-    collapse.textContent = '▶'
-    collapse.style.position = 'absolute'
-    collapse.style.top = '40%'
-    collapse.style.zIndex = '40'
-    collapse.style.transform = 'translateX(-50%)'
-    collapse.style.display = 'none'
-    collapse.style.width = '22px'
-    collapse.style.height = '44px'
-    collapse.style.padding = '0'
-    collapse.style.border = '1px solid var(--dsw-alias-border-l1)'
-    collapse.style.borderRadius = '8px'
-    collapse.style.background = 'var(--dsw-alias-bg-overlay)'
-    collapse.style.color = 'var(--dsw-alias-label-secondary)'
-    collapse.style.cursor = 'pointer'
-    collapse.style.fontSize = '10px'
-    collapse.style.lineHeight = '1'
-    collapse.addEventListener('click', () => { this.close() })
-    frame.appendChild(collapse)
-    this.collapseBtn = collapse
 
     // Sync the shell's inline grid: a 3-track write is the shell's own
     // (mirror + re-append); a 4-track write is our echo (ignore).
@@ -245,9 +221,34 @@ export class ToolboxLayoutController {
     this.applyGrid()
   }
 
+  /** Mark the toolbox UI as mounted (session-scoped slot active). */
+  markMounted(): void {
+    this.mounted = true
+    if (this.root !== '') this.setRoot(this.root)
+  }
+
+  /** Mark the toolbox UI as unmounted and collapse to the rail. */
+  markUnmounted(): void {
+    this.mounted = false
+    // Do not persist this collapse: it is only a transient layout cleanup
+    // while no toolbox UI is mounted, not a user preference change.
+    this.state = { ...this.state, collapsed: true, width: 0 }
+    this.emit()
+    this.applyGrid()
+  }
+
   /** Bind the project root: per-project width/collapse restore + persist. */
   setRoot(root: string): void {
     this.root = root
+    if (!this.mounted) {
+      // The session-scoped toolbox UI is not mounted yet (e.g. a new session
+      // is being created). Never let the persisted expanded state squeeze the
+      // conversation while there is no toolbox UI to fill the column.
+      this.state = { ...this.state, collapsed: true, width: 0 }
+      this.emit()
+      this.applyGrid()
+      return
+    }
     let storedCollapsed: string | null = null
     try {
       storedCollapsed = localStorage.getItem(PERSIST_COLLAPSED + root)
@@ -282,7 +283,7 @@ export class ToolboxLayoutController {
     this.applyGrid()
   }
 
-  /** Collapse to zero width (kept mounted). */
+  /** Collapse to the narrow rail (kept mounted). */
   close(): void {
     this.state = { ...this.state, collapsed: true, width: 0 }
     try {
@@ -292,14 +293,6 @@ export class ToolboxLayoutController {
     }
     this.emit()
     this.applyGrid()
-  }
-
-  /** Set the collapse pill's accessible label (locale-following). */
-  setCollapseLabel(label: string): void {
-    if (this.collapseBtn !== null) {
-      this.collapseBtn.title = label
-      this.collapseBtn.setAttribute('aria-label', label)
-    }
   }
 
   /** Set the live width (clamped). `persist` records it as the user's choice. */
@@ -315,17 +308,14 @@ export class ToolboxLayoutController {
   private applyGrid(): void {
     const el = this.frame
     if (el === null || this.shellTracks.length === 0) return
-    const ourTrack = `${this.state.collapsed ? 0 : this.state.width}px`
+    const trackWidth = this.state.collapsed ? TOOLBOX_RAIL_WIDTH : this.state.width
+    const ourTrack = `${trackWidth}px`
     el.style.gridTemplateColumns = [...this.shellTracks, ourTrack].join(' ')
-    // The handle straddles the column's LEFT edge (the resize boundary):
-    // position it at frame width minus our track, hidden while collapsed.
+    // The handle straddles the column's LEFT edge (the resize boundary);
+    // it is only useful while expanded.
     if (this.handle !== null) {
       this.handle.style.display = this.state.collapsed ? 'none' : 'block'
-      this.handle.style.left = `${this.frameWidth - (this.state.collapsed ? 0 : this.state.width)}px`
-    }
-    if (this.collapseBtn !== null) {
-      this.collapseBtn.style.display = this.state.collapsed ? 'none' : 'block'
-      this.collapseBtn.style.left = `${this.frameWidth - (this.state.collapsed ? 0 : this.state.width)}px`
+      this.handle.style.left = `${this.frameWidth - trackWidth}px`
     }
   }
 
@@ -376,10 +366,8 @@ export class ToolboxLayoutController {
     }
     this.column?.remove()
     this.handle?.remove()
-    this.collapseBtn?.remove()
     this.column = null
     this.handle = null
-    this.collapseBtn = null
     this.frame = null
     this.listeners.clear()
   }

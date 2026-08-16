@@ -5,9 +5,10 @@
  * and exposes the `toolbox.tool` seat — the interface every tool plugin uses
  * to add a card. The shipped tool-details column is never touched.
  */
+import { resolveSlotLabel } from '@deepseek-ai/dsh-client-ui-slots'
 import type { LocaleFace, PluginContext, ToolboxInjected, ToolRow } from './contract.ts'
 import { ToolboxLayoutController } from './layout.ts'
-import { ToolboxHandrail, ToolboxMount } from './ToolboxRoot.tsx'
+import { ToolboxMount } from './ToolboxRoot.tsx'
 import { en, NS, zh } from './locales.ts'
 
 /** Services required by the toolbox plugin. */
@@ -25,7 +26,6 @@ export function apply(ctx: PluginContext): void {
   const t = locale?.bind(NS) ?? ((key: string) => (zh as Record<string, string>)[key] ?? key)
 
   const layout = new ToolboxLayoutController()
-  layout.setCollapseLabel(t('collapse'))
   layout.mount()
   ctx.effect(() => layout.dispose, 'toolbox: layout controller')
 
@@ -35,30 +35,52 @@ export function apply(ctx: PluginContext): void {
     const snapshot = ctx.sessions.list.getSnapshot()
     const sessionId = snapshot.current
     const cwd = sessionId === undefined ? undefined : snapshot.byId[sessionId]?.cwd
-    layout.setRoot(typeof cwd === 'string' && cwd !== '' ? cwd : '')
+    if (sessionId === undefined || typeof cwd !== 'string' || cwd === '') {
+      // No usable session workspace yet (e.g. a fresh session is being
+      // created): never leave the conversation squeezed by an expanded toolbox
+      // column while the toolbox UI is absent.
+      layout.close()
+      return
+    }
+    layout.setRoot(cwd)
   }
   bindRoot()
   ctx.effect(() => ctx.sessions.list.subscribe(bindRoot), 'toolbox: project root')
 
-  // Ledger → row projection for the empty state (uSES pair: getSnapshot
-  // returns the cached rows until the ledger version moves).
+  // Ledger → row projection for the tab strip + empty state (uSES pair: the
+  // cached rows survive until the ledger version or the locale revision moves
+  // — labels may be locale-following thunks).
   let version = -1
+  let revision = -1
   let rows: readonly ToolRow[] = []
   const injectFactory = (): ToolboxInjected => ({
     closeDetails: () => { layout.close() },
     hooks: {
       tools: {
         getSnapshot: () => {
-          const next = slots.getVersion('toolbox.tool')
-          if (next !== version) {
-            version = next
+          const nextVersion = slots.getVersion('toolbox.tool')
+          const nextRevision = locale?.getSnapshot().revision ?? -1
+          if (nextVersion !== version || nextRevision !== revision) {
+            version = nextVersion
+            revision = nextRevision
             rows = slots.entries('toolbox.tool')
-              .map((e: { options: { id?: string; order?: number } }) => ({ id: e.options.id ?? '', order: e.options.order ?? 0 }))
+              .map((e: { options: { id?: string; order?: number; label?: string | (() => string) } }) => ({
+                id: e.options.id ?? '',
+                order: e.options.order ?? 0,
+                label: resolveSlotLabel(e.options.label) ?? e.options.id ?? '',
+              }))
               .sort((a: ToolRow, b: ToolRow) => a.order - b.order)
           }
           return rows
         },
-        subscribe: (listener: () => void) => slots.subscribe('toolbox.tool', listener),
+        subscribe: (listener: () => void) => {
+          const offLedger = slots.subscribe('toolbox.tool', listener)
+          const offLocale = locale === undefined ? () => {} : locale.subscribe(listener)
+          return () => {
+            offLedger()
+            offLocale()
+          }
+        },
       },
     },
   })
@@ -77,9 +99,4 @@ export function apply(ctx: PluginContext): void {
   }, (props: Record<string, unknown>) =>
     ToolboxMount({ ...(props as unknown as Parameters<typeof ToolboxMount>[0]), layout })))
 
-  // Entry point: the right-edge handrail, shown while the column is collapsed.
-  slots.inject('shell.overlay', () => slots.register(
-    { name: 'shell.overlay', id: 'toolbox-handrail', order: 0, label: () => t('title') },
-    () => ToolboxHandrail({ layout, label: t('open') }),
-  ))
 }

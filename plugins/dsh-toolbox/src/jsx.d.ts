@@ -15,6 +15,8 @@ declare module 'react/jsx-runtime' {
 }
 
 declare module 'react' {
+  export function useEffect(effect: () => void | (() => void), deps?: readonly unknown[]): void
+  export function useState<S>(initial: S | (() => S)): [S, (next: S | ((previous: S) => S)) => void]
   export function useSyncExternalStore<S>(
     subscribe: (listener: () => void) => () => void,
     getSnapshot: () => S,
@@ -23,4 +25,9 @@ declare module 'react' {
 
 declare module 'react-dom' {
   export function createPortal(children: unknown, container: Element): unknown
+}
+
+declare module '@deepseek-ai/dsh-client-ui-slots' {
+  /** Resolve a slot label option (string or locale thunk) to its display text. */
+  export function resolveSlotLabel(label: unknown): string | undefined
 }

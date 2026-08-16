@@ -11,6 +11,7 @@ export const zh = {
   'open': '打开工具区',
   'empty': '暂无工具插件',
   'emptyHint': '工具插件通过 toolbox.tool 槽位挂载，安装后自动出现在这里。',
+  'tabsAria': '工具切换',
 } satisfies Record<string, string>
 
 /** The toolbox namespace key union. */
@@ -24,4 +25,5 @@ export const en = {
   'open': 'Open toolbox',
   'empty': 'No tool plugins installed',
   'emptyHint': 'Tool plugins mount through the toolbox.tool slot and appear here automatically.',
+  'tabsAria': 'Tool switcher',
 } satisfies Record<ToolboxKey, string>
