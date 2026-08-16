@@ -1,7 +1,7 @@
-/** `mcpView` namespace dictionaries. */
+/** `mcpAdapter` namespace dictionaries. */
 
 /** Dictionary namespace owned by this plugin. */
-export const NS = 'mcpView'
+export const NS = 'mcpAdapter'
 
 /** Simplified Chinese dictionary (the key-set source of truth). */
 export const zh = {
@@ -16,10 +16,15 @@ export const zh = {
   'refresh': '刷新',
   'search': '搜索工具…',
   'active': 'active',
+  'inactive': '未激活',
+  'connecting': '连接中',
+  'statusError': '错误',
+  'activate': '激活',
+  'deactivate': '停用',
 } satisfies Record<string, string>
 
 /** The namespace key union. */
-export type McpViewKey = keyof typeof zh
+export type McpAdapterKey = keyof typeof zh
 
 /** English dictionary, checked complete against the zh key set. */
 export const en = {
@@ -34,4 +39,9 @@ export const en = {
   'refresh': 'Refresh',
   'search': 'Search tools…',
   'active': 'active',
-} satisfies Record<McpViewKey, string>
+  'inactive': 'inactive',
+  'connecting': 'connecting',
+  'statusError': 'error',
+  'activate': 'Activate',
+  'deactivate': 'Deactivate',
+} satisfies Record<McpAdapterKey, string>

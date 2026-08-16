@@ -4,7 +4,7 @@
 export interface McpViewProps {
   /** Current session id (framework-standard). */
   sessionId: string
-  /** Locale seat for the `mcpView` namespace. */
+  /** Locale seat for the `mcpAdapter` namespace. */
   t: (key: string) => string
 }
 

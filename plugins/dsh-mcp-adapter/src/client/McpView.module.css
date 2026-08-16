@@ -1,4 +1,4 @@
-/* MCP view tool layout. */
+/* MCP Adapter tool layout. */
 
 .root {
   display: flex;
@@ -65,27 +65,34 @@
   margin-bottom: 10px;
 }
 
-/* Collapsible server card. */
 .serverCard {
   display: flex;
   align-items: center;
-  gap: 10px;
-  width: 100%;
-  padding: 14px 16px;
+  gap: 6px;
   border: 1px solid var(--dsw-alias-border-l1);
   border-radius: 10px;
   background: var(--dsw-alias-bg-overlay);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+.serverMain {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  padding: 14px 16px;
+  border: none;
+  background: transparent;
   color: var(--dsw-alias-label-primary);
   cursor: pointer;
   text-align: left;
   font-size: 14px;
   font-weight: 600;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
 }
 
-.serverCard:hover {
-  border-color: #f92672;
-  background: var(--dsw-alias-interactive-bg-hover);
+.serverMain:hover {
+  color: #f92672;
 }
 
 .serverName {
@@ -94,6 +101,32 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.statusBadge {
+  flex: none;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 14px;
+  border: 1px solid currentColor;
+}
+
+.inactive {
+  color: var(--dsw-alias-label-tertiary);
+}
+
+.connecting {
+  color: #d19a66;
+}
+
+.active {
+  color: #f92672;
+}
+
+.error {
+  color: #ff5555;
 }
 
 .groupCount {
@@ -105,24 +138,45 @@
   font-size: 10px;
 }
 
-.activeBadge {
-  flex: none;
-  padding: 2px 8px;
-  border: 1px solid #f92672;
-  border-radius: 999px;
-  color: #f92672;
-  font-size: 10px;
-  font-weight: 600;
-  line-height: 14px;
-}
-
 .chevron {
   flex: none;
   color: var(--dsw-alias-label-secondary);
   font-size: 12px;
 }
 
-/* Tool list nested under the server card. */
+.actionBtn {
+  flex: none;
+  margin-right: 10px;
+  padding: 6px 10px;
+  border: 1px solid var(--dsw-alias-border-l1);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--dsw-alias-label-primary);
+  cursor: pointer;
+  font-size: 11px;
+  line-height: 14px;
+}
+
+.actionBtn:hover {
+  color: #f92672;
+  border-color: #f92672;
+}
+
+.actionBtn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.serverError {
+  margin: 6px 2px 0;
+  padding: 6px 10px;
+  border-radius: 6px;
+  background: rgba(255, 85, 85, 0.08);
+  color: #ff5555;
+  font-size: 11px;
+  line-height: 1.4;
+}
+
 .toolList {
   margin: 4px 0 0 12px;
   padding-left: 12px;

@@ -1,0 +1,6 @@
+# dsh-mcp-adapter bundle patch: inserts the dual-face plugin row into a web
+# profile roster. The node half exposes /dsh-mcp/* lifecycle routes; the
+# client half registers a toolbox.tool entry for activation/visualization.
+- insert:
+    - id: ui-mcp-adapter
+      name: '@dsh-external/dsh-client-ui-mcp-adapter'

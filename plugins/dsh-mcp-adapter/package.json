@@ -1,6 +1,6 @@
 {
-  "name": "@dsh-external/dsh-client-ui-mcp-view",
-  "description": "MCP visualization tool for the dsh toolbox: list available MCP tools, servers, descriptions and input schemas",
+  "name": "@dsh-external/dsh-client-ui-mcp-adapter",
+  "description": "MCP adapter for the dsh toolbox: lazy lifecycle control, activation/deactivation, status, and visualization of MCP servers",
   "version": "0.0.1",
   "private": true,
   "type": "module",
