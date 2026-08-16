@@ -96,16 +96,17 @@ export function apply(ctx: PluginContext): void {
     },
   })
 
-  // The always-mounted session-scoped seat: renders nothing in its slot (the
-  // column UI portals out), declares the tool seat, and carries the inject
-  // face (close callback + tool rows). Tool cards receive the framework
-  // session kit through this entry's scope.
-  slots.inject('conversation.session.header.actions', () => slots.register({
-    name: 'conversation.session.header.actions',
+  // The always-mounted root seat: renders nothing in its slot (the column UI
+  // portals out), declares the tool seat, and carries the inject face (close
+  // callback + tool rows). Using shell.overlay keeps the toolbox rail visible
+  // even before the first message; toolbox.tool is session-maybe so tools can
+  // render both before and after a session exists.
+  slots.inject('shell.overlay', () => slots.register({
+    name: 'shell.overlay',
     id: 'toolbox-mount',
     order: 50,
     locale: NS,
-    children: { 'toolbox.tool': { kind: 'list', scope: 'session' } },
+    children: { 'toolbox.tool': { kind: 'list', scope: 'session-maybe' } },
     inject: injectFactory,
   }, (props: Record<string, unknown>) =>
     ToolboxMount({ ...(props as unknown as Parameters<typeof ToolboxMount>[0]), layout })))

@@ -67,6 +67,15 @@
 ### 6. 工具区可视化工具
 
 - [x] MCP 可视化：列出当前可用的 MCP 工具/服务，展示名称、描述、输入 schema（连接状态待补）
+- [x] **MCP Adapter 插件（懒启动/手动激活）**：以纯插件形式实现，不修改 Harness 核心（基础版已实现）
+  - [ ] 自持 MCP 客户端生命周期：不随 DSH 启动自动连接，默认 inactive
+  - [ ] 支持手动激活/停用：在 MCP 面板点击 activate / deactivate 后再连接/注册工具
+  - [ ] 激活后才把工具注册到 `ctx.tools`，避免 MCP schema 常驻上下文
+  - [ ] 暴露统一状态查询：inactive / connecting / active / error
+  - [ ] 与 MCP 可视化整合：同一个面板显示状态、工具数、激活按钮
+  - [ ] 支持多 MCP server 独立控制
+  - [ ] 复用 `@modelcontextprotocol/sdk` 或 stdio JSON-RPC，不依赖 `@deepseek-ai/dsh-mcp-client` 的启动即连接行为
+  - [ ] 可选：首次调用自动激活 / 按会话过滤工具
 - [ ] MCP 工具调用面板：从工具区直接调用/调试 MCP 工具，查看返回结果
 - [ ] 文件树 + 预览：显示当前工作区文件树，点击文件在预览区查看内容；支持 Markdown / HTML / 代码 / diff / CSV / PDF / Office / 图片 / 文本等多格式预览，源码/预览/分屏模式与保存
 - [ ] 文件改动预览：展示工作区未提交改动（git diff / 新增 / 删除 / 修改），支持 diff 视图
