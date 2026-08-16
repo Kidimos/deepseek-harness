@@ -59,7 +59,7 @@
 }
 
 .activeNode {
-  color: var(--dsw-alias-brand-primary);
+  color: #f92672;
   background: var(--dsw-alias-interactive-bg-hover);
 }
 
@@ -134,7 +134,7 @@
 }
 
 .activeModeTab {
-  color: var(--dsw-alias-brand-primary);
+  color: #f92672;
   background: var(--dsw-alias-interactive-bg-hover);
 }
 
@@ -151,7 +151,7 @@
 }
 
 .saveBtn:hover {
-  color: var(--dsw-alias-brand-primary);
+  color: #f92672;
 }
 
 .saveBtn:disabled {
