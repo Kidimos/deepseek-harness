@@ -58,13 +58,13 @@
 
 .collapseBtn:hover,
 .railBtn:hover {
-  color: var(--dsw-alias-brand-primary);
+  color: #f92672;
   background: var(--dsw-alias-interactive-bg-hover);
 }
 
 .collapseBtn:focus-visible,
 .railBtn:focus-visible {
-  outline: 2px solid var(--dsw-alias-brand-primary);
+  outline: 2px solid #f92672;
   outline-offset: -2px;
 }
 
@@ -102,12 +102,12 @@
 }
 
 .toolIcon:hover {
-  color: var(--dsw-alias-brand-primary);
+  color: #f92672;
   background: var(--dsw-alias-interactive-bg-hover);
 }
 
 .activeToolIcon {
-  color: var(--dsw-alias-brand-primary);
+  color: #f92672;
   background: var(--dsw-alias-interactive-bg-hover);
 }
 
@@ -139,7 +139,7 @@
 }
 
 .iconPagerBtn:hover:not(:disabled) {
-  color: var(--dsw-alias-brand-primary);
+  color: #f92672;
   background: var(--dsw-alias-interactive-bg-hover);
 }
 

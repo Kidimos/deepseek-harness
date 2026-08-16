@@ -1,0 +1,6 @@
+# dsh-mcp-view bundle patch: inserts the dual-face plugin row into a web
+# profile roster. The node half exposes /dsh-mcp/tools backed by ctx.tools;
+# the client half registers a toolbox.tool entry.
+- insert:
+    - id: ui-mcp-view
+      name: '@dsh-external/dsh-client-ui-mcp-view'
