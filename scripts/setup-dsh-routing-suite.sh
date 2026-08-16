@@ -28,7 +28,7 @@ fi
 echo "==> Building injector ..."
 (
   cd "$TARGET_DIR/injector"
-  DSH_CHECKOUT="$REPO_ROOT" pnpm run build
+  DSH_CHECKOUT="$REPO_ROOT" bash scripts/build.sh
 )
 
 echo "==> Installing Router Standard preset ..."
