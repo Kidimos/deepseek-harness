@@ -25,6 +25,12 @@ else
   echo "==> dsh-routing-suite already exists at $TARGET_DIR"
 fi
 
+echo "==> Linking @types/node for injector build ..."
+mkdir -p "$TARGET_DIR/injector/node_modules/@types"
+if [ ! -e "$TARGET_DIR/injector/node_modules/@types/node" ]; then
+  ln -s "$REPO_ROOT/node_modules/@types/node" "$TARGET_DIR/injector/node_modules/@types/node"
+fi
+
 echo "==> Building injector ..."
 (
   cd "$TARGET_DIR/injector"
